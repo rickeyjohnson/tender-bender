@@ -15,6 +15,10 @@ struct ContentView: View {
                     Image(systemName: "location")
                     
                 }
+            SearchView()
+                .tabItem {
+                    Image(systemName: "magnifyingglass")
+                }
         }
     }
 }
