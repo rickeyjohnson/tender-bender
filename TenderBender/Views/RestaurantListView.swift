@@ -9,17 +9,33 @@ import SwiftUI
 
 struct RestaurantListView: View {
     @StateObject var viewModel = RestaurantListViewModel()
+    @State private var searchText: String = ""
+    
+    var filteredRestaurants: [Restaurant] {
+        if searchText.isEmpty {
+            return viewModel.restaurants
+        } else {
+            return viewModel.restaurants.filter {
+                $0.name.lowercased().contains(searchText.lowercased())
+            }
+        }
+    }
     
     var body: some View {
         NavigationStack {
-            List(viewModel.restaurants) { restaurant in
-                RestaurantListCell(restaurant: restaurant)
+            List(filteredRestaurants) { restaurant in
+                NavigationLink(destination: RestaurantDetailView(restaurant: restaurant)) {
+                    RestaurantListCell(restaurant: restaurant)
+                }
             }
             .navigationTitle("Search")
         }
         .onAppear {
             viewModel.fetchRestaurants()
         }
+        .searchable(
+            text: $searchText,
+            prompt: "Crispiness Begins Here")
     }
 }
 
