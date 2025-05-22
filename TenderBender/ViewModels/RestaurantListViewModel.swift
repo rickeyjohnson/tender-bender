@@ -9,5 +9,8 @@ import SwiftUI
 
 class RestaurantListViewModel: ObservableObject {
     @Published var restaurants: [Restaurant] = []
-    
+        
+    func fetchRestaurants() {
+        restaurants = MockData.restaurants
+    }
 }
